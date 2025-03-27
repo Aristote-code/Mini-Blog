@@ -1,61 +1,70 @@
-import React from 'react';
-import { Post } from '../types';
-import { ArrowLeft, Clock, Calendar } from 'lucide-react';
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Post as PostType } from "../types/Post";
+import { withLogger } from "./HOCs/withLogger";
+import "../styles/ArticleView.css";
 
-interface ArticleViewProps {
-  post: Post;
-  onBack: () => void;
-}
+const ArticleView: React.FC = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-const ArticleView: React.FC<ArticleViewProps> = ({ post, onBack }) => {
+  // This should be replaced with actual data fetching
+  const post = {
+    id: Number(id),
+    title: "Understanding React Hooks",
+    author: "Sarah Chen",
+    content:
+      "React Hooks are a game-changer in how we write React components. They allow us to use state and other React features without writing a class component. In this comprehensive guide, we'll explore the most commonly used hooks and how they can improve your React applications.\n\nuseState is perhaps the most fundamental Hook in React. It allows you to add state to functional components, making them more dynamic and interactive. The beauty of useState lies in its simplicity - it returns an array with two elements: the current state value and a function to update it.\n\nuseEffect is another essential Hook that lets you perform side effects in function components. Think of side effects as operations that can affect other components and can't be done during rendering, such as data fetching, subscriptions, or manually changing the DOM.\n\nCustom Hooks are a powerful feature that enables you to extract component logic into reusable functions. They start with 'use' and can call other Hooks, following the same rules as the built-in Hooks. This pattern promotes code reuse and helps keep your components clean and focused.",
+    datePosted: new Date(),
+  };
+
   return (
-    <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8">
       <button
-        onClick={onBack}
-        className="inline-flex items-center text-gray-600 hover:text-blue-600 mb-8 transition-colors"
+        onClick={() => navigate("/")}
+        className="flex items-center text-blue-600 hover:text-blue-800 mb-8"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Posts
+        ← Back to Posts
       </button>
-
-      <div className="bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">{post.title}</h1>
-        
-        <div className="flex items-center text-sm text-gray-600 mb-8 space-x-6">
-          <div className="flex items-center">
-            <Calendar className="w-4 h-4 mr-2" />
-            <time>{new Date(post.date).toLocaleDateString()}</time>
+      <article className="bg-white rounded-lg p-8 shadow-sm">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            {post.title}
+          </h1>
+          <div className="flex items-center text-sm text-gray-500">
+            <span className="font-medium">By {post.author}</span>
+            <span className="mx-2">•</span>
+            <span>{post.datePosted.toLocaleDateString()}</span>
+            <span className="mx-2">•</span>
+            <span>5 min read</span>
           </div>
-          <div className="flex items-center">
-            <Clock className="w-4 h-4 mr-2" />
-            <span>{post.readTime || '5 min read'}</span>
-          </div>
-          <span>By {post.author}</span>
         </div>
-
-        {post.tags && (
-          <div className="flex gap-2 mb-8">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 rounded-full text-sm font-medium text-blue-600 bg-blue-50"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="prose prose-lg max-w-none">
-          {post.content.split('\n').map((paragraph, index) => (
-            <p key={index} className="mb-4 text-gray-700 leading-relaxed">
+        <div className="prose max-w-none">
+          {post.content.split("\n\n").map((paragraph, index) => (
+            <p key={index} className="text-gray-700 leading-relaxed mb-4">
               {paragraph}
             </p>
           ))}
         </div>
-      </div>
-    </article>
+        <div className="mt-8 pt-8 border-t border-gray-100">
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-600">Tags:</span>
+            <div className="flex gap-2">
+              <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
+                React
+              </span>
+              <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
+                Hooks
+              </span>
+              <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
+                JavaScript
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
   );
 };
 
-export default ArticleView;
+export default withLogger(ArticleView);

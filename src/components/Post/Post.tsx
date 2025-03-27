@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Post as PostType } from "../types/Post";
+import { Post as PostType } from "../../types/Post";
+import { withLogger } from "../../HOCs/withLogger";
+import "./Post.css";
 
 interface PostProps {
   post: PostType;
@@ -18,22 +20,18 @@ const Post: React.FC<PostProps> = React.memo(({ post }) => {
         <div>
           {isNew && (
             <span className="inline-block bg-blue-100 text-blue-600 text-sm px-2 py-1 rounded-md mb-2">
-              New Post
+              New!
             </span>
           )}
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            {post.title}
-          </h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h2>
+          <p className="text-gray-600 mb-4">{previewContent}</p>
         </div>
       </div>
-      <div className="flex items-center text-sm text-gray-500 mb-4">
-        <span className="font-medium">By {post.author}</span>
+      <div className="flex items-center text-sm text-gray-500">
+        <span className="font-medium">{post.author}</span>
         <span className="mx-2">•</span>
         <span>{post.datePosted.toLocaleDateString()}</span>
-        <span className="mx-2">•</span>
-        <span>5 min read</span>
       </div>
-      <p className="text-gray-600">{previewContent}</p>
       <button
         onClick={() => navigate(`/post/${post.id}`)}
         className="text-blue-600 hover:text-blue-800 mt-4 font-medium"
@@ -45,4 +43,4 @@ const Post: React.FC<PostProps> = React.memo(({ post }) => {
 });
 
 Post.displayName = "Post";
-export default Post;
+export default withLogger(Post);

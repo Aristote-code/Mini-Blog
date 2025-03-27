@@ -1,0 +1,10 @@
+.post-list {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.post-list-container {
+  display: grid;
+  gap: 1.5rem;
+}

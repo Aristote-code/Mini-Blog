@@ -1,0 +1,27 @@
+.post {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.post-meta {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.new-badge {
+  background-color: #e74c3c;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-left: 1rem;
+}
+
+.author {
+  font-weight: bold;
+  margin-right: 1rem;
+} 
